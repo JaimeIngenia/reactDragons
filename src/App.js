@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+
+import Cards from "./componentes/Cards";
+import Filter from "./componentes/Filter";
+import { useState } from "react";
+import DataDragons from "./statics/data"
+
 
 function App() {
+  const [valueInputFilter,setValueInputFilter]=useState("");
+  function filtrarDragones (){
+    const nuevaListaDragones = DataDragons.filter((dragon)=>{
+      if(valueInputFilter===""){
+        return dragon
+      }
+      return dragon.Nombre.toLowerCase().includes(valueInputFilter)
+    })
+    return nuevaListaDragones
+  }
+  const listaFiltrada = filtrarDragones()
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Filter  valueInputFilter={valueInputFilter} setValueInputFilter={setValueInputFilter}/>
+      <Cards dataDragons={listaFiltrada}/>
     </div>
   );
 }
